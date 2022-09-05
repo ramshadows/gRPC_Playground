@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package ecommerce;
+
+import "pc-specs.proto";
+//import "google/protobuf/wrappers.proto";
+
+option go_package = "/ecommerce";
+
+service LaptopService {
+    rpc CreateLaptop(CreateLaptopRequest) returns (CreateLaptopResponse) {}
+    rpc GetLaptopByID(GetLaptopByIDRequest) returns (GetLaptopByIDResponse) {}
+    rpc SearchLaptop(SearchLaptopRequest) returns (stream SearchLaptopResponse) {};
+    rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse) {};
+    rpc RateLaptop(stream RateLaptopRequest) returns (stream RateLaptopResponse) {};
+}
+
+message CreateLaptopRequest {
+    Laptop laptop = 1;
+}
+
+message CreateLaptopResponse {
+    string id = 1;
+}
+
+message GetLaptopByIDRequest {
+    string id = 1;
+}
+
+message GetLaptopByIDResponse { 
+    Laptop laptop = 1; 
+}
+
+message SearchLaptopRequest { 
+    Filter filter = 1; 
+}
+
+message SearchLaptopResponse {
+     Laptop laptop = 1; 
+}
+
+// UploadImageRequest divide the image file into multiple chunks, and send them
+// one by one to the server in each request message
+message UploadImageRequest {
+  oneof data { // oneof field here separates request into metadata, or some basic info of the image.
+    ImageInfo info = 1;
+    bytes chunk_data = 2;
+  };
+}
+
+message UploadImageResponse {
+  string id = 1;
+  uint32 size = 2; // size of the uploaded image in bytes.
+}
+
+message RateLaptopRequest {
+  string laptop_id = 1;
+  double score = 2;
+}
+
+message RateLaptopResponse {
+  string laptop_id = 1;
+  uint32 rated_count = 2;
+  double average_score = 3;
+}

@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package ecommerce;
+
+option go_package = "/ecommerce";
+
+import "google/protobuf/timestamp.proto";
+
+message Laptop {
+  string id = 1;
+  string brand = 2;
+  string name = 3;
+  CPU cpu = 4;
+  Memory ram = 5;
+  repeated GPU gpus = 6;
+  repeated Storage storages = 7;
+  Screen screen = 8;
+  Keyboard keyboard = 9;
+  oneof weight { // either kilograms or pounds
+    double weight_kg = 10;
+    double weight_lb = 11;
+  }
+
+  double price_usd = 12;
+  uint32 release_year = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message CPU {
+  string brand = 1;
+  string name = 2;
+  uint32 number_cores = 3;
+  uint32 number_threads = 4;
+  double min_ghz = 5;
+  double max_ghz = 6;
+}
+
+message GPU {
+  string brand = 1;
+  string name = 2;
+  double min_ghz = 3;
+  double max_ghz = 4;
+  Memory memory = 5;
+}
+
+message Memory {
+  enum Unit {
+    UNKNOWN = 0;
+    BIT = 1;
+    BYTE = 2;
+    KILOBYTE = 3;
+    MEGABYTE = 4;
+    GIGABYTE = 5;
+    TERABYTE = 6;
+  }
+
+  uint64 value = 1;
+  Unit unit = 2;
+}
+
+message Storage {
+  enum Driver {
+    UNKNOWN = 0;
+    HDD = 1;
+    SSD = 2;
+  }
+
+  Driver driver = 1;
+  Memory memory = 2;
+}
+
+message Keyboard {
+  enum Layout {
+    UNKNOWN = 0;
+    QWERTY = 1;
+    QWERTZ = 2;
+    AZERTY = 3;
+  }
+
+  Layout layout = 1;
+  bool backlit = 2;
+}
+
+message Screen {
+  message Resolution {
+    uint32 width = 1;
+    uint32 height = 2;
+  }
+
+  enum Panel {
+    UNKNOWN = 0;
+    IPS = 1;
+    OLED = 2;
+  }
+
+  float size_inch = 1;
+  Resolution resolution = 2;
+  Panel panel = 3;
+  bool multitouch = 4;
+}
+
+// Filter message defines filter params
+message Filter {
+  double max_price_usd = 1;
+  uint32 min_cpu_cores = 2;
+  double min_cpu_ghz = 3;
+  Memory min_ram = 4;
+}
+
+message ImageInfo {
+  string laptop_id = 1;
+  string image_type = 2;
+  
+}
+
+

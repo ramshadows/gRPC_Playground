@@ -1,0 +1,52 @@
+// protocol buﬀer version (proto3)
+syntax = "proto3";
+
+option go_package = "/ecommerce";
+
+package ecommerce;
+
+import "google/protobuf/wrappers.proto";
+
+service OrderManagement {
+
+  // addOrder is a remote method unary rpc to add an order and returns order id
+  // It's a single request single response rpc service
+  rpc addOrder(Order) returns (google.protobuf.StringValue);
+  // getOrder is a remote method unary rpc to get an order.
+  // The client sends a request parameter of an oder id and the server responds with the order
+  // It's a single request single response rpc service
+  // Notice the leveraging of  the well-known types such as StringValue
+  rpc getOrder(google.protobuf.StringValue) returns (Order) {}
+
+  // searchOrders is a remote method server-side streaming rpc that receives a single request 
+  //from the client and the server responses/returns stream of order messages to the client
+  rpc searchOrders(google.protobuf.StringValue) returns (stream Order) {}
+
+  // updateOrders is a remote mthod client- side streaming rpc that receives multiple input stream
+  // messages from the client. As the server only sends a single response, the return 
+  // value is a single string message.
+  rpc updateOrders(stream Order) returns (google.protobuf.StringValue) {}
+
+  // processOrders is bidirectional-streaming RPC, the client is sending a request to the 
+  // server as a stream of messages. The server also responds with a stream of messages. 
+  // The call has to be initiated from the client side, but after that, the 
+  // communication is completely based on the application logic of the gRPC client and the server.
+  rpc processOrders(stream google.protobuf.StringValue) returns (stream CombinedShipment) {}
+}
+
+message Order {
+  string id = 1;
+  // one order message can have any number of items.
+  repeated string items = 2;
+  string description = 3;
+  float price = 4;
+  string destination = 5;
+}
+
+message CombinedShipment {
+  string id = 1;
+  string status = 2;
+  repeated Order ordersList = 3;
+
+}
+

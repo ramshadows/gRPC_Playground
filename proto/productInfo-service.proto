@@ -1,0 +1,39 @@
+// protocol buﬀer version (proto3)
+syntax = "proto3";
+
+option go_package = "/ecommerce";
+
+package ecommerce;
+
+
+
+// Deﬁning the service interface of a gRPC service.
+// A service is thus a collection of methods (e.g.,
+// addProduct and getProduct) that can be remotely
+// invoked.
+// Each method has input parameters and
+// return types that we deﬁne as either part of the
+// service or that can be imported into the protocol
+// buﬀer deﬁnition.
+service ProductInfo {
+    // Remote method to add a product that returns the
+    // product ID as the response.
+    rpc addProduct(Product) returns (ProductID) {}
+
+    // Remote method to get a product based on the product ID.
+    rpc getProduct(ProductID) returns (Product) {}
+
+}
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    float price = 4;
+}
+
+message ProductID {
+    string value = 1;
+}
+
+

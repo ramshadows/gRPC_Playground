@@ -1,0 +1,22 @@
+subjectAltName=DNS:*.pcclient.com,DNS:*.pcclient.org
+subjectAltName=email:copy,email:pcclient@gmail.com,,URI:http://www.pcclient.com/
+# when we develop on localhost, It’s important to add the IP:0.0.0.0 as an
+# Subject Alternative Name (SAN) extension to the certificate.
+# Otherwise you will get an error since TLS handshake will fail
+# On production, it will be OK because we use domain names instead.
+subjectAltName=IP:0.0.0.0
+
+##### Sample server-ext.cnf ##
+#subjectAltName=email:copy,email:my@other.address,URI:http://my.url.here/
+#subjectAltName=IP:192.168.7.1
+#subjectAltName=IP:13::17
+#subjectAltName=email:my@other.address,RID:1.2.3.4
+#subjectAltName=otherName:1.2.3.4;UTF8:some other identifier
+
+#subjectAltName=dirName:dir_sect
+
+#[dir_sect]
+#C=UK
+#O=My Organization
+#OU=My Unit
+#CN=My Name
