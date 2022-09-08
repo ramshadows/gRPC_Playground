@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/ram/Golang_Playground/src/gRPC-Playground'
+protoc -I=proto/ --go_out=. proto/*.proto
+make: Leaving directory '/home/ram/Golang_Playground/src/gRPC-Playground'
+ 
